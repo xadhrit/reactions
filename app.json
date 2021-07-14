@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "izzy",
-    "slug": "izzy",
+    "name": "reactions",
+    "slug": "reactions",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
