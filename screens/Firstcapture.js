@@ -4,17 +4,22 @@ import React, { useState , useEffect } from 'react';
 import { View, Text, TouchableOpacity, Platform, StyleSheet } from 'react-native';
 import Icon  from "react-native-vector-icons/Ionicons"
 import * as ImagePicker from "expo-image-picker";
+import ViewShot from 'react-native-view-shot';
 
 
-
+export const ration = "16:9"
 
 const Firstcapture = ({navigation}) => {
     const [cameraPermission, setCameraPermission] = useState(null);
+    
     const [galleryPermission, setGalleryPermission] = useState(null);
 
     const [camera, setCamera] = useState(null);
+    
     const [imageUri, setImageUri] = useState(null);
+    
     const [type, setType] = useState(Camera.Constants.Type.back);
+    
     const [clicked, setClicked] = useState(true);
 
     const getPermissionAsync = async () => {
@@ -34,12 +39,18 @@ const Firstcapture = ({navigation}) => {
     },[]); 
 
     const onCapture = async () => {
-        if (camera) {
-            const data = await camera.takePictureAsync(null);
-            console.log(data.uri);
-            setImageUri(data.uri);
+          try{
+              if (camera){
+                  const data = await camera.takePictureAsync(null);
+                  console.log(data.uri);
+                  setImageUri(data.uri);
+                  navigation.navigate("React");
+              }
+          } 
+          catch (err){
+              console.log(err);
           }
-    }; 
+        } 
 
     const pickImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
@@ -57,25 +68,19 @@ const Firstcapture = ({navigation}) => {
     
     return(
         <View style={{flex: 1}}>
-           <Camera 
+        <Camera 
            ref={(ref) => setCamera(ref)}
            type={type}
-           style={styles.fixedRatio}>
+           style={styles.fixedRatio}
+           ratio={ration}
+           >
                
                <TouchableOpacity onPress={pickImage} >
                 <Icon name="wallet-outline" style={{color:"white", fontSize:40, marginTop:10}} />
                 </TouchableOpacity> 
-                {clicked ?
                 <TouchableOpacity activeOpacity={0.7} onPressIn={onCapture} >
                 <Icon name="ios-radio-button-on" style={{color: "white" , fontSize: 75, marginTop:"150%", alignSelf:"center"}} />   
-                </TouchableOpacity> : 
-                 <TouchableOpacity activeOpacity={0.7}  >
-                 <Icon name="checkmark-circle-outline" style={{color: "white" , fontSize: 75, marginTop:"150%", alignSelf:"center"}} />   
-                 
-                 </TouchableOpacity>    
-            }
-              
-               
+                </TouchableOpacity>                 
            </Camera>
         
         </View>

@@ -4,7 +4,15 @@ import React, { useState , useEffect } from 'react';
 import { View, Text, TouchableOpacity, Platform, StyleSheet } from 'react-native';
 import Icon  from "react-native-vector-icons/Ionicons"
 import * as ImagePicker from "expo-image-picker";
+import { ration } from './Firstcapture';
 
+export const navigationOptions = ({navigation}) => ({
+    headerLeft: () => (
+        <TouchableOpacity onPress={() => navigation.goBack()} >
+           <Icon name="md-arrow-back" style={{color:"white", fontSize:20}} /> 
+        </TouchableOpacity>
+    )
+})
 
 
 const ReactScreen = ({navigation}) => {
@@ -55,7 +63,9 @@ const ReactScreen = ({navigation}) => {
         <Camera 
         ref={(ref) => setCamera(ref)} 
         type={type}
-        style = {styles.fixedRatio}>
+        style = {styles.fixedRatio}
+        ratio={ration}
+        >
             <TouchableOpacity activeOpacity={0.7} onPressIn={onCapture}>
             <Icon name="ios-radio-button-on" style={{color: "white" , fontSize: 75, marginTop:"150%", alignSelf:"center"}} /> 
             </TouchableOpacity>
