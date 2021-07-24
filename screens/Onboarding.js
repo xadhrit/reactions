@@ -5,7 +5,6 @@ import { Block, Button, Text, theme } from 'galio-framework';
 const { height, width } = Dimensions.get('screen');
 
 import materialTheme from '../constants/Theme';
-import {Images} from '../constants';
 
 export default class Onboarding extends React.Component {
   render() {
@@ -16,7 +15,7 @@ export default class Onboarding extends React.Component {
         <StatusBar barStyle="light-content" />
         <Block flex center>
           <ImageBackground
-            source={{  uri: Images.Onboarding }}
+            source={{  uri: 'https://source.unsplash.com/collection/4390575/' }}
             style={{ height: height, width: width, marginTop: '-55%', zIndex: 1 }}
           />
         </Block>
@@ -35,6 +34,7 @@ export default class Onboarding extends React.Component {
               <Text size={16} color='rgba(255,255,255,0.6)'>
                 Welcome to reactions
               </Text>
+              
             </Block>
             <Block center>
               <Button
@@ -45,6 +45,9 @@ export default class Onboarding extends React.Component {
                 GET STARTED
               </Button>
             </Block>
+            <Text size={10} color='rgba(255,255,255,0.6)' >
+              image source:  unsplash.com                app by: github.com/xadhrit  
+            </Text>
           </Block>
         </Block>
       </Block>
