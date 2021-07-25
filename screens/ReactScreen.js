@@ -1,7 +1,7 @@
 import { Camera } from 'expo-camera';
 import * as Permissions from 'expo-permissions';
 import React, { useState , useEffect } from 'react';
-import { View, Text, TouchableOpacity, Platform, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, Platform, StyleSheet, ImageBackground, Dimensions } from 'react-native';
 import Icon  from "react-native-vector-icons/Ionicons"
 import * as ImagePicker from "expo-image-picker";
 import { ration } from './Firstcapture';
@@ -69,7 +69,7 @@ const ReactScreen = ({navigation}) => {
             <TouchableOpacity activeOpacity={0.7} onPressIn={onCapture}>
             <Icon name="ios-radio-button-on" style={{color: "white" , fontSize: 75, marginTop:"150%", alignSelf:"center"}} /> 
             </TouchableOpacity>
-        </Camera>
+        </Camera>  
       </View>
     )
 }
@@ -79,5 +79,6 @@ export default ReactScreen;
 const styles = StyleSheet.create({
     fixedRatio: {
         flex: 1,
+
     } 
 })

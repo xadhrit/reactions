@@ -1,10 +1,10 @@
 import { Camera } from 'expo-camera';
 import * as Permissions from 'expo-permissions';
 import React, { useState , useEffect } from 'react';
-import { View, Text, TouchableOpacity, Platform, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, Platform, Image,StyleSheet } from 'react-native';
 import Icon  from "react-native-vector-icons/Ionicons"
 import * as ImagePicker from "expo-image-picker";
-import ViewShot from 'react-native-view-shot';
+//import ViewShot from 'react-native-view-shot';
 
 
 export const ration = "16:9"
@@ -20,7 +20,7 @@ const Firstcapture = ({navigation}) => {
     
     const [type, setType] = useState(Camera.Constants.Type.back);
     
-    const [clicked, setClicked] = useState(true);
+    const [clicked, setClicked] = useState(false);
 
     const getPermissionAsync = async () => {
         const cameraPermission = await Camera.requestPermissionsAsync();
@@ -41,48 +41,28 @@ const Firstcapture = ({navigation}) => {
     const onCapture = async () => {
           try{
               if (camera){
-                  const data = await camera.takePictureAsync(null);
-                  console.log(data.uri);
-                  setImageUri(data.uri);
-                  navigation.navigate("React");
-              }
+                const data = await camera.takePictureAsync(null);
+                console.log(data.uri);
+                setImageUri(data.uri);
+                navigation.navigate('FirstPreview', { uri: data.uri })
+            }
           } 
           catch (err){
               console.log(err);
           }
         } 
-
-    const pickImage = async () => {
-        let result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.Images,
-            allowsEditing: true,
-            aspect: [1, 1],
-            quality: 1,
-          });
-      
-          console.log(result);
-          if (!result.cancelled) {
-            setImageUri(result.uri);
-          }
-    }
-    
+        
     return(
         <View style={{flex: 1}}>
-        <Camera 
-           ref={(ref) => setCamera(ref)}
-           type={type}
-           style={styles.fixedRatio}
-           ratio={ration}
-           >
-               
-               <TouchableOpacity onPress={pickImage} >
-                <Icon name="wallet-outline" style={{color:"white", fontSize:40, marginTop:10}} />
-                </TouchableOpacity> 
-                <TouchableOpacity activeOpacity={0.7} onPressIn={onCapture} >
-                <Icon name="ios-radio-button-on" style={{color: "white" , fontSize: 75, marginTop:"150%", alignSelf:"center"}} />   
-                </TouchableOpacity>                 
-           </Camera>
-        
+        {!clicked ? 
+             <Camera  ref={(ref) => setCamera(ref)} type={type} style={styles.fixedRatio} ratio={ration}>  
+             <TouchableOpacity activeOpacity={0.7} onPressIn={onCapture} >
+                 <Icon name="ios-radio-button-on" style={{color: "white" , fontSize: 75, marginTop:"150%", alignSelf:"center"}} />   
+             </TouchableOpacity>                 
+            </Camera>
+            : 
+            <Text>😛 </Text>  
+        }
         </View>
     )
 } 
