@@ -1,9 +1,9 @@
 import React from "react";
-import { Easing, Animated, Dimensions } from 'react-native';
 import { createStackNavigator } from "@react-navigation/stack";
 import Onboarding from "../screens/Onboarding";
 import Firstcapture from "../screens/Firstcapture";
-import ReactScreen from "../screens/ReactScreen";
+import ReactScreen, {navigationOptions as reactNavigationOptions} from "../screens/ReactScreen";
+import FirstPreview from "../screens/FirstPreview";
 
 const Stack = createStackNavigator();
 
@@ -20,10 +20,16 @@ const Screens = ({ navigation }) => {
            options={{ headerShown: false }}
          />
          <Stack.Screen
+           name="FirstPreview"
+           component={FirstPreview}
+           options={{headerShown: false}}
+         />
+         <Stack.Screen
            name="React"
            component={ReactScreen}
            options={{headerShown: false}}
          />
+
        </Stack.Navigator>
     )
 }

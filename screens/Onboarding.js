@@ -15,8 +15,8 @@ export default class Onboarding extends React.Component {
         <StatusBar barStyle="light-content" />
         <Block flex center>
           <ImageBackground
-            source={{  uri: 'https://source.unsplash.com/collection/4390575/' }}
-            style={{ height: height, width: width, marginTop: '-55%', zIndex: 1 }}
+            source={{  uri: 'https://source.unsplash.com/collection/4390575' }}  //1396742 //4390575
+            style={{ height: height, width: width, marginTop: '-10%', zIndex: 1 }}
           />
         </Block>
         <Block flex space="between" style={styles.padded}>
@@ -34,7 +34,7 @@ export default class Onboarding extends React.Component {
               <Text size={16} color='rgba(255,255,255,0.6)'>
                 Welcome to reactions
               </Text>
-              
+            
             </Block>
             <Block center>
               <Button
@@ -44,10 +44,12 @@ export default class Onboarding extends React.Component {
                 onPress={() => navigation.navigate('Firstcapture')}>
                 GET STARTED
               </Button>
+             
             </Block>
             <Text size={10} color='rgba(255,255,255,0.6)' >
               image source:  unsplash.com                app by: github.com/xadhrit  
             </Text>
+              
           </Block>
         </Block>
       </Block>
