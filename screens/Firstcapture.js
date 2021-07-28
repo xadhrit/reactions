@@ -9,6 +9,23 @@ import * as ImagePicker from "expo-image-picker";
 
 export const ration = "16:9"
 
+const initialState = {
+    zoomValue: 0,
+}
+
+const reducer = ({initialState,action:{ type:string, payload: any }}) => {
+    switch(action.type){
+        case "ZOOM":
+            return {
+                ...initialState,
+                zoomValue: action.payload
+            };
+        default:
+            return {...initialState}
+    }
+
+}
+
 const Firstcapture = ({navigation}) => {
     const [cameraPermission, setCameraPermission] = useState(null);
     
@@ -20,7 +37,7 @@ const Firstcapture = ({navigation}) => {
     
     const [type, setType] = useState(Camera.Constants.Type.back);
     
-    const [clicked, setClicked] = useState(false);
+    //const { zoomValue } = state; 
 
     const getPermissionAsync = async () => {
         const cameraPermission = await Camera.requestPermissionsAsync();
@@ -39,30 +56,28 @@ const Firstcapture = ({navigation}) => {
     },[]); 
 
     const onCapture = async () => {
-          try{
-              if (camera){
+        try{
+            if (camera){
                 const data = await camera.takePictureAsync(null);
                 console.log(data.uri);
                 setImageUri(data.uri);
-                navigation.navigate('FirstPreview', { uri: data.uri })
+                navigation.navigate('React', { uri: data.uri })
             }
-          } 
-          catch (err){
-              console.log(err);
-          }
         } 
-        
+        catch (err){
+            console.log(err);
+        }
+    }
+
+
     return(
-        <View style={{flex: 1}}>
-        {!clicked ? 
-             <Camera  ref={(ref) => setCamera(ref)} type={type} style={styles.fixedRatio} ratio={ration}>  
+        <View style={{flex: 1}}> 
+             <Camera  ref={(ref) => setCamera(ref)} type={type}  style={styles.fixedRatio} ratio={ration}>  
              <TouchableOpacity activeOpacity={0.7} onPressIn={onCapture} >
                  <Icon name="ios-radio-button-on" style={{color: "white" , fontSize: 75, marginTop:"150%", alignSelf:"center"}} />   
              </TouchableOpacity>                 
             </Camera>
-            : 
-            <Text>😛 </Text>  
-        }
+        
         </View>
     )
 } 
