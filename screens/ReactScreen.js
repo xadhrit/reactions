@@ -1,10 +1,15 @@
+import ViewShot from 'react-native-view-shot';
 import { Camera } from 'expo-camera';
 import * as Permissions from 'expo-permissions';
-import React, { useState , useEffect } from 'react';
-import { View, Text, TouchableOpacity, Platform, StyleSheet, ImageBackground, Dimensions } from 'react-native';
+import React, { useState , useEffect, useRef } from 'react';
+import { View, Text, TouchableOpacity, Platform, StyleSheet, ImageBackground, Dimensions, Share } from 'react-native';
 import Icon  from "react-native-vector-icons/Ionicons"
 import * as ImagePicker from "expo-image-picker";
 import { ration } from './Firstcapture';
+import {Button, theme} from "galio-framework";
+import materialTheme from "../constants/Theme";
+
+
 
 export const navigationOptions = ({navigation}) => ({
     headerLeft: () => (
@@ -14,11 +19,12 @@ export const navigationOptions = ({navigation}) => ({
     )
 })
 
+const {width, height} = Dimensions.get("screen");
 
-const ReactScreen = ({navigation}) => {
+const ReactScreen = ({navigation, route}) => {
     const [cameraPermission, setCameraPermission] = useState(null);
     const [galleryPermission, setGalleryPermission] = useState(null);
-
+    const {uri} = route.params;
     const [camera, setCamera] = useState(null);
     const [imageUri, setImageUri] = useState(null);
     const [type, setType] = useState(Camera.Constants.Type.front);
@@ -39,12 +45,20 @@ const ReactScreen = ({navigation}) => {
         getPermissionAsync();
     },[])
     
-    const onCapture = async () => {
-        if (camera){
+    const viewShotRef = useRef();
+    const [button, setButton] = useState(true);
+
+    const onShare = async () => {
+        /*if (camera){
             const data = await camera.takePictureAsync(null);
             console.log(data.uri);
             setImageUri(data.uri);
-        }
+        }*/
+        setButton(false);
+        const imageURI = await viewShotRef.current.capture();
+        console.log(imageURI);
+        setButton(true);
+        Share.share({title:'reaction', url: imageURI})
     };
     const pickImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
@@ -59,18 +73,13 @@ const ReactScreen = ({navigation}) => {
         }
     }
     return(
-      <View style={{flex:1}}>
-        <Camera 
-        ref={(ref) => setCamera(ref)} 
-        type={type}
-        style = {styles.fixedRatio}
-        ratio={ration}
-        >
-            <TouchableOpacity activeOpacity={0.7} onPressIn={onCapture}>
-            <Icon name="ios-radio-button-on" style={{color: "white" , fontSize: 75, marginTop:"150%", alignSelf:"center"}} /> 
-            </TouchableOpacity>
-        </Camera>  
-      </View>
+        <ViewShot ref={viewShotRef} style={{flex:1}} options={{format:'jpg',quality:1.0}} >
+            <ImageBackground source={{uri:uri}} style={{height:height, width: width}} >
+                <Button shadowless onPress={onShare} style={styles.button} color={materialTheme.COLORS.TRANSPARENT}> SHARE! </Button>  
+                <Camera  ref={(ref) => setCamera(ref)}  type={type}  style = {styles.fixedRatio} ratio={ration}></Camera>  
+            </ImageBackground>
+        </ViewShot>
+    
     )
 }
 
@@ -78,7 +87,16 @@ export default ReactScreen;
 
 const styles = StyleSheet.create({
     fixedRatio: {
-        flex: 1,
-
-    } 
+        marginTop:90+"%",
+        height:250,
+        width: 180,
+        marginLeft:140,
+    },
+    button: {
+        width: width - theme.SIZES.BASE * 15,
+        shadowRadius: 0,
+        shadowOpacity: 0,
+        marginTop:10,
+        marginLeft: 50  + "%",
+    }, 
 })
