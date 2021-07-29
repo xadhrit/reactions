@@ -11,7 +11,7 @@ const {width, height} = Dimensions.get("screen");
 const ReactionPreview = ({navigation, route}) => {
     const {uri} = route.params;
     console.log(JSON.stringify(uri));
-
+    const [imageURI, setImageURI] = useState(null); 
 
     const saveImage = useCallback((FileSystem) => {
     MediaLibrary.requestPermissionsAsync().then(({ granted }) => {
@@ -32,8 +32,8 @@ const ReactionPreview = ({navigation, route}) => {
   }
   const back = () => {
     return(
-      navigation.goBack(),
-      setImageUri(null)
+      //setImageURI(null),
+      navigation.goBack()    
     )
   }
     return (

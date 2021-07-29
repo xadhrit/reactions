@@ -1,3 +1,4 @@
+import { useIsFocused } from '@react-navigation/native';
 import ViewShot from 'react-native-view-shot';
 import { Camera } from 'expo-camera';
 import * as Permissions from 'expo-permissions';
@@ -30,6 +31,7 @@ const ReactScreen = ({navigation, route}) => {
     const [imageUri, setImageUri] = useState(null);
     const [type, setType] = useState(Camera.Constants.Type.front);
 
+    const isFocused = useIsFocused();
     const getPermissionAsync = async () => {
         const cameraPermission = await Camera.requestCameraPermissionsAsync();
         setCameraPermission(cameraPermission.status === 'granted');
@@ -49,38 +51,21 @@ const ReactScreen = ({navigation, route}) => {
     const [button, setButton] = useState(true);
 
     const onCapture = async () => {
-        /*if (camera){
-            const data = await camera.takePictureAsync(null);
-            console.log(data.uri);
-            setImageUri(data.uri);
-        }*/
         setButton(false);
         const imageURI = await viewShotRef.current.capture();
         console.log(imageURI);
         setButton(true);
         navigation.navigate('Reaction', {uri: imageURI})
-        //Share.share({title:'reaction', url: imageURI})
     };
-    const pickImage = async () => {
-        let result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.Images,
-            allowsEditing: true,
-            aspect:[1,1],
-            quality: 1,
-        });
-        console.log(result);
-        if (!result.cancelled){
-            setImageUri(result.uri)
-        }
-    }
     return(
         <ViewShot ref={viewShotRef} style={{flex:1}} options={{format:'jpg',quality:1.0}} >
-            <ImageBackground source={{uri:uri}} style={{height:height, width: width}} > 
+            { isFocused && <ImageBackground source={{uri:uri}} style={{height:height, width: width}} > 
                 <Camera  ref={(ref) => setCamera(ref)}  type={type}  style = {styles.fixedRatio} ratio={ratio}></Camera>  
+                {button &&
                 <TouchableOpacity onPress={onCapture} >
-                {button && <Icon name="ios-heart-circle-outline" style={{color: "white" , fontSize: 75, marginTop:20, alignSelf:"center"}} />   }
-                </TouchableOpacity>
-            </ImageBackground>
+                 <Icon name="ios-heart-circle-outline" style={{color: "white" , fontSize: 75, marginTop:20, alignSelf:"center"}} />   
+                </TouchableOpacity> }
+            </ImageBackground> }
         </ViewShot>
     
     )
