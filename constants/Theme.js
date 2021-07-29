@@ -20,7 +20,7 @@ export default {
     BORDER_COLOR: '#E7E7E7',
     BLOCK: '#E7E7E7',
     ICON: '#4A4A4A',
-    TRANSPARENT: 'rgba(121, 210, 209, 0.456)'
+    TRANSPARENT: 'rgba(11, 210, 210, 0.556)'
 
   },
   SIZES: {

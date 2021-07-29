@@ -20,6 +20,7 @@ export const navigationOptions = ({navigation}) => ({
 })
 
 const {width, height} = Dimensions.get("screen");
+const ratio = "4:3"
 
 const ReactScreen = ({navigation, route}) => {
     const [cameraPermission, setCameraPermission] = useState(null);
@@ -28,7 +29,6 @@ const ReactScreen = ({navigation, route}) => {
     const [camera, setCamera] = useState(null);
     const [imageUri, setImageUri] = useState(null);
     const [type, setType] = useState(Camera.Constants.Type.front);
-    const [clicked, setClicked] = useState(true);
 
     const getPermissionAsync = async () => {
         const cameraPermission = await Camera.requestCameraPermissionsAsync();
@@ -48,7 +48,7 @@ const ReactScreen = ({navigation, route}) => {
     const viewShotRef = useRef();
     const [button, setButton] = useState(true);
 
-    const onShare = async () => {
+    const onCapture = async () => {
         /*if (camera){
             const data = await camera.takePictureAsync(null);
             console.log(data.uri);
@@ -58,7 +58,8 @@ const ReactScreen = ({navigation, route}) => {
         const imageURI = await viewShotRef.current.capture();
         console.log(imageURI);
         setButton(true);
-        Share.share({title:'reaction', url: imageURI})
+        navigation.navigate('Reaction', {uri: imageURI})
+        //Share.share({title:'reaction', url: imageURI})
     };
     const pickImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
@@ -74,9 +75,11 @@ const ReactScreen = ({navigation, route}) => {
     }
     return(
         <ViewShot ref={viewShotRef} style={{flex:1}} options={{format:'jpg',quality:1.0}} >
-            <ImageBackground source={{uri:uri}} style={{height:height, width: width}} >
-                <Button shadowless onPress={onShare} style={styles.button} color={materialTheme.COLORS.TRANSPARENT}> SHARE! </Button>  
-                <Camera  ref={(ref) => setCamera(ref)}  type={type}  style = {styles.fixedRatio} ratio={ration}></Camera>  
+            <ImageBackground source={{uri:uri}} style={{height:height, width: width}} > 
+                <Camera  ref={(ref) => setCamera(ref)}  type={type}  style = {styles.fixedRatio} ratio={ratio}></Camera>  
+                <TouchableOpacity onPress={onCapture} >
+                {button && <Icon name="ios-heart-circle-outline" style={{color: "white" , fontSize: 75, marginTop:20, alignSelf:"center"}} />   }
+                </TouchableOpacity>
             </ImageBackground>
         </ViewShot>
     
@@ -87,16 +90,14 @@ export default ReactScreen;
 
 const styles = StyleSheet.create({
     fixedRatio: {
-        marginTop:90+"%",
-        height:250,
+        marginTop: 80+"%",
+        height: 230,
         width: 180,
-        marginLeft:140,
+        marginLeft: 170,
+        borderTopRightRadius:30,
+        borderBottomStartRadius:30,
+        borderBottomRightRadius:30,
+        borderBottomLeftRadius: 30
     },
-    button: {
-        width: width - theme.SIZES.BASE * 15,
-        shadowRadius: 0,
-        shadowOpacity: 0,
-        marginTop:10,
-        marginLeft: 50  + "%",
-    }, 
+ 
 })

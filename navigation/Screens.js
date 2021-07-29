@@ -3,6 +3,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import Onboarding from "../screens/Onboarding";
 import Firstcapture from "../screens/Firstcapture";
 import ReactScreen from "../screens/ReactScreen";
+import ReactionPreview from "../screens/ReactionPreview";
 
 const Stack = createStackNavigator();
 
@@ -21,6 +22,11 @@ const Screens = ({ navigation }) => {
          <Stack.Screen
            name="React"
            component={ReactScreen}
+           options={{headerShown: false}}
+         />
+         <Stack.Screen
+           name="Reaction"
+           component={ReactionPreview}
            options={{headerShown: false}}
          />
 
