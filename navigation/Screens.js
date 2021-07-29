@@ -10,10 +10,7 @@ const Stack = createStackNavigator();
 const Screens = ({ navigation }) => {
     return(
        <Stack.Navigator mode="card"  headerMode="none" >
-         <Stack.Screen
-          name="Onboarding"
-          component={Onboarding}
-         />
+         
          <Stack.Screen
            name="Firstcapture"
            component={Firstcapture}
