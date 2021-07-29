@@ -1,10 +1,10 @@
 {
   "expo": {
-    "name": "reactions",
-    "slug": "reactions",
+    "name": "Reactions",
+    "slug": "Reactions",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/reaction.png",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -21,9 +21,10 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/reaction.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.adhrit.reactions"
     },
     "web": {
       "favicon": "./assets/favicon.png"
