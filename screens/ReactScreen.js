@@ -11,7 +11,6 @@ import {Button, theme} from "galio-framework";
 import materialTheme from "../constants/Theme";
 
 
-
 export const navigationOptions = ({navigation}) => ({
     headerLeft: () => (
         <TouchableOpacity onPress={() => navigation.goBack()} >
@@ -63,7 +62,7 @@ const ReactScreen = ({navigation, route}) => {
                 <Camera  ref={(ref) => setCamera(ref)}  type={type}  style = {styles.fixedRatio} ratio={ratio}></Camera>  
                 {button &&
                 <TouchableOpacity onPress={onCapture} >
-                 <Icon name="ios-heart-circle-outline" style={{color: "white" , fontSize: 75, marginTop:20, alignSelf:"center"}} />   
+                 <Icon name="ios-heart-circle-outline" style={{color: "white" , fontSize: 55, marginTop:20, alignSelf:"center"}} />   
                 </TouchableOpacity> }
             </ImageBackground> }
         </ViewShot>
@@ -75,7 +74,7 @@ export default ReactScreen;
 
 const styles = StyleSheet.create({
     fixedRatio: {
-        marginTop: 80+"%",
+        marginTop: 100+"%",
         height: 230,
         width: 180,
         marginLeft: 170,
